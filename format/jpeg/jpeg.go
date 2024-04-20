@@ -262,6 +262,13 @@ func jpegDecode(d *decode.D) any {
 								}
 							})
 						})
+					case DHT:
+						lH := int64(d.FieldU16("lh"))
+						d.FieldU4("tc")
+						d.FieldU4("th")
+						d.FramedFn(lH*8-24, func(d *decode.D) {
+							d.FieldRawLen("data", d.BitsLeft())
+						})
 					case RST0, RST1, RST2, RST3, RST4, RST5, RST6, RST7:
 						inECD = true
 					case TEM:
